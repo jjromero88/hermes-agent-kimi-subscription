@@ -6,6 +6,13 @@
 
 Hermes Agent incluye de forma nativa el proveedor `kimi-coding`. Esto significa que si tienes una membresía de Kimi (por ejemplo, el plan de $19/mes), puedes generar una API key de **Kimi Code** y usarla directamente en Hermes: el consumo se descuenta de la cuota semanal de tu suscripción, sin facturación por token.
 
+> ℹ️ **Entorno verificado.** Esta guía se escribió y probó sobre:
+> - **Hermes Agent v0.19.0 (2026.7.20)**
+> - **Kimi Code**, tal como estaba disponible el **2026-07-27** (es un servicio hosteado, sin un cliente versionado al que anclarse)
+> - **Ubuntu Desktop 26.04 LTS** ("resolute")
+>
+> Los pasos dependen del comportamiento del proveedor `kimi-coding` en ese momento puntual. Si estás en una versión de Hermes muy distinta o mucho después en el tiempo, revisa con cuidado los Pasos 1 y 4 — tanto Kimi como Hermes publican actualizaciones frecuentes y el detalle de los proveedores puede cambiar.
+
 ---
 
 ## Tabla de contenidos
