@@ -232,8 +232,8 @@ hermes gateway restart
 ## Referencias
 
 - [Kimi Code — Documentación oficial](https://www.kimi.com/code/docs/en/)
-- [Kimi Code — Uso en agentes de terceros](https://www.kimi.com/code/docs/en/third-party-tools/other-coding-agents)
-- [Hermes Agent — Proveedores soportados](https://hermes-agent.nousresearch.com/docs/integrations/providers)
+- [Kimi Code — Uso en Claude Code](https://www.kimi.com/code/docs/en/third-party-tools/claude-code.html) *(los agentes de terceros documentados oficialmente por Kimi son actualmente Claude Code, OpenCode y Codex — no Hermes. Esta página es la referencia oficial más cercana al mismo mecanismo de API/key que usa esta guía.)*
+- [Hermes Agent — Proveedores soportados](https://hermes-agent.nousresearch.com/docs/integrations/providers) *(aquí es donde realmente está documentado el proveedor nativo `kimi-coding` — el soporte lo construyó Hermes de su lado)*
 - [Hermes Agent — Repositorio en GitHub](https://github.com/NousResearch/hermes-agent)
 
 ---
