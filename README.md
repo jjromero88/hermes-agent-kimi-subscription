@@ -49,7 +49,7 @@ Hermes Agent ships with this endpoint pre-configured under the `kimi-coding` pro
 
 - Hermes Agent installed, on a reasonably recent version (see Step 1).
 - An active Kimi membership that includes Kimi Code.
-- Linux/macOS with terminal access (examples use Ubuntu).
+- Linux/macOS with terminal access (examples use Ubuntu). Every command in this guide is identical on macOS — the only place it diverges is Step 6, where the Linux/macOS service commands are listed separately.
 
 ## Step 1 — Update Hermes Agent
 
@@ -149,14 +149,32 @@ If it responds without authentication errors (`401`/`403`) or "unknown model" er
 
 ## Step 6 — Restart the service (24/7 installs)
 
-If Hermes runs as a persistent service, restart it so it picks up the new configuration. With systemd (user mode):
+If you installed Hermes as a persistent background service (`hermes gateway install`), the simplest way to restart it is Hermes' own command — it works the same on Linux and macOS:
+
+```bash
+hermes gateway list      # confirm the service/profile you want to restart
+hermes gateway restart   # restart it (add a profile name if you run more than one)
+```
+
+If that doesn't pick up the change, or you want to manage the underlying OS service manager directly, use the commands for your platform:
+
+**Linux (systemd, user mode):**
 
 ```bash
 systemctl --user list-units | grep -i hermes   # identify the service
 systemctl --user restart <service-name>        # e.g. hermes-gateway.service
 ```
 
-If it runs in `tmux`/`screen` or an interactive session, close and relaunch the process.
+**macOS (launchd):**
+
+```bash
+launchctl list | grep -i hermes                          # identify the service
+launchctl kickstart -k gui/$(id -u)/ai.hermes.gateway     # restart it
+```
+
+> Older Hermes versions had a real bug here: `hermes gateway start/stop/restart` silently failed on macOS because it used launchctl subcommands (`load`/`start`/`stop`) that modern macOS deprecated — you'd see "Not privileged to start service" if you ran them by hand. This was fixed well before v0.19.0; if you hit it, `hermes update` first. (One narrower edge case — `hermes update` not restarting *every* profile's gateway when you run multiple profiles on macOS — was still open as of this writing; restart affected profiles manually with the `launchctl` command above if needed.)
+
+If Hermes runs in `tmux`/`screen` or an interactive session instead of an installed service, just close and relaunch the process.
 
 ## Verifying subscription usage
 
@@ -204,13 +222,13 @@ This way, if your Kimi quota runs out temporarily, Hermes keeps working with the
 | Connection/endpoint error | A `base_url` line from another provider was left in the `model:` block | Remove it and restart |
 | The key isn't drawing from the subscription | Key generated on `platform.moonshot.ai` (pay-per-token) | Generate the key at `kimi.com/code/console` instead |
 | Intermittent `429`s under heavy use | Rate limit on the 5-hour window | Wait for renewal, or configure `fallback_model` |
-| The 24/7 service is still using the old provider | The process wasn't restarted | `systemctl --user restart <service>` |
+| The 24/7 service is still using the old provider | The process wasn't restarted | `hermes gateway restart` (or the OS-specific command from Step 6) |
 
 If something goes wrong and you need to roll back:
 
 ```bash
 cp ~/.hermes/config.yaml.bak ~/.hermes/config.yaml
-systemctl --user restart <service-name>
+hermes gateway restart
 ```
 
 ## References
